@@ -1,18 +1,16 @@
-import value from "../database/emailMKT.js";
-import { SendEmail } from "../index.js";
+import setEmail from "../database/setEmail.js";
+
 
 class EmailControll {
+
     async create(req, res) {
-        const { email } = req.body;
-        const mailBody = {
-            email
+        try {
+            const email = req.body.email;
+            setEmail(email, res, req);
         }
-        SendEmail.push(mailBody);
-        if (mailBody.email != "" && mailBody.email != null && mailBody.email != undefined) {
-            value.setEmail(mailBody.email)
-            return res.status(200)
+        catch (err) {
+            return res.status(400).send({ error: "Email não inserido" });
         }
-        else return res.status(400).send({ error: "Email não informado" });
     }
 }
 

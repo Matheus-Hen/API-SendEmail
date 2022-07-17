@@ -1,10 +1,9 @@
 import express from 'express'
-import { Router } from 'express';
+import router from './routers/router.js'
 import cors from "cors";
-import bodyParser from 'body-parser';
 import EmailController from './controller/EmailController.js';
+import connect from './database/connect.js';
 
-const router = Router();
 var corsOptions = {
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200
@@ -12,18 +11,10 @@ var corsOptions = {
 const app = express();
 app.use(cors(corsOptions));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-router.post("/SendEmail", (req, res) => {
-    res.json(req.body)
-    if(req.body.email != null && req.body.email != "")EmailController.create(req, res);
-})
+app.use(express.json())
 app.use(router)
 
-
-export const SendEmail = []
-
-app.listen(3004, () => {
+app.listen(3000, () => {
     console.log("Servidor iniciado");
 })
 
